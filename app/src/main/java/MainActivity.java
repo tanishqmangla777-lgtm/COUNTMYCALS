@@ -7,20 +7,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView title;
     TextView dashboard;
-
     int dailyCalorieGoal = 2200;
     int caloriesConsumed = 0;
     int caloriesBurned = 0;
-
     ArrayList<Meal> meals = new ArrayList<>();
 
     @Override
@@ -28,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         ScrollView scrollView = new ScrollView(this);
-
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(40, 40, 40, 40);
@@ -45,13 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         Button breakfastBtn = new Button(this);
         breakfastBtn.setText("Scan Breakfast");
-
         Button lunchBtn = new Button(this);
         lunchBtn.setText("Scan Lunch");
-
         Button dinnerBtn = new Button(this);
         dinnerBtn.setText("Scan Dinner");
-
         Button dashboardBtn = new Button(this);
         dashboardBtn.setText("View Dashboard");
 
@@ -63,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         layout.addView(dashboard);
 
         scrollView.addView(layout);
-
         setContentView(scrollView);
 
         breakfastBtn.setOnClickListener(v -> addMeal("Oats + Milk", 350));
@@ -71,42 +62,31 @@ public class MainActivity extends AppCompatActivity {
         dinnerBtn.setOnClickListener(v -> addMeal("Chicken Wrap", 600));
         dashboardBtn.setOnClickListener(v -> showDashboard());
 
-        updateDashboard("Welcome to CountMyCals!");
+        showInitialDashboard();
     }
 
     private void addMeal(String mealName, int calories) {
         Meal meal = new Meal(mealName, calories);
         meals.add(meal);
         caloriesConsumed += calories;
+        updateDashboard("Meal Added Successfully!\n\nFood: " + mealName + "\nCalories: " + calories + " kcal");
+    }
 
-        updateDashboard(
-                "Meal Added Successfully!\n\n" +
-                "Food: " + mealName + "\n" +
-                "Calories: " + calories + " kcal"
-        );
+    private void showInitialDashboard() {
+        int netCalories = dailyCalorieGoal - caloriesConsumed + caloriesBurned;
+        updateDashboard("Welcome to CountMyCals!\n\nGoal: " + dailyCalorieGoal + " kcal\nConsumed: " + caloriesConsumed + " kcal\nRemaining: " + netCalories + " kcal");
     }
 
     private void showDashboard() {
-
         int extraCalories = caloriesConsumed - dailyCalorieGoal;
-
         StringBuilder builder = new StringBuilder();
-
         builder.append("===== DAILY DASHBOARD =====\n\n");
         builder.append("Daily Goal: ").append(dailyCalorieGoal).append(" kcal\n");
         builder.append("Consumed: ").append(caloriesConsumed).append(" kcal\n");
-        builder.append("Burned: ").append(caloriesBurned).append(" kcal\n");
-        builder.append("Extra Calories: ").append(extraCalories).append(" kcal\n\n");
-
-        builder.append("MEALS TODAY:\n\n");
-
+        builder.append("Extra Calories: ").append(extraCalories).append(" kcal\n\nMEALS TODAY:\n\n");
         for (Meal meal : meals) {
-            builder.append(meal.name)
-                    .append(" - ")
-                    .append(meal.calories)
-                    .append(" kcal\n");
+            builder.append(meal.name).append(" - ").append(meal.calories).append(" kcal\n");
         }
-
         updateDashboard(builder.toString());
     }
 
@@ -117,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
     class Meal {
         String name;
         int calories;
-
         Meal(String name, int calories) {
             this.name = name;
             this.calories = calories;

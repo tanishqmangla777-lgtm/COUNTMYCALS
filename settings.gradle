@@ -1,20 +1,16 @@
-plugins {
-    id 'com.android.application'
-}
-
-android {
-    namespace 'com.countmycals'
-    compileSdk 34
-
-    defaultConfig {
-        applicationId "com.countmycals"
-        minSdk 24
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
-
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
+rootProject.name = "COUNTMYCALS"
+include ':app'
